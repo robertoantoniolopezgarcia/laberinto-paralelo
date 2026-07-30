@@ -1,0 +1,19 @@
+# Build results
+bin/
+obj/
+out/
+
+# Visual Studio / Rider / VS Code
+.vs/
+.vscode/
+.idea/
+*.user
+*.suo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Resultados generados localmente (dejamos /metrics versionado a propósito
+# para las comparativas oficiales que sí se van a entregar)
+*.log
