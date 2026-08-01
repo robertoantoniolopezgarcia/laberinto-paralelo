@@ -1,4 +1,5 @@
-
+using MazeSolver.Maze;
+using MazeSolver.Metrics;
 
 namespace MazeSolver.Solvers
 {
