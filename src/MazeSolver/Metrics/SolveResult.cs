@@ -17,19 +17,5 @@ namespace MazeSolver.Metrics
         public List<MazeCell> Path { get; set; } = new();
         public int NodesVisited { get; set; }
         public long ElapsedMilliseconds { get; set; }
-
-        /// <summary>
-        /// Longitud del camino encontrado.
-        /// </summary>
-        public int PathLength => Path.Count;
-
-        public override string ToString()
-        {
-            return $"{AlgorithmName} | " +
-                   $"PathFound: {PathFound} | " +
-                   $"NodesVisited: {NodesVisited} | " +
-                   $"PathLength: {PathLength} | " +
-                   $"Time: {ElapsedMilliseconds} ms";
-        }
     }
 }
