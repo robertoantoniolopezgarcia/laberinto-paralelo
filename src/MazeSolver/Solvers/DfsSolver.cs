@@ -24,7 +24,9 @@ namespace MazeSolver.Solvers
         public string Name => "DFS";
 
         /// <summary>
-        /// Ejecuta el DFS para encontrar un camino entre inicio y meta
+        /// Ejecuta el DFS para encontrar un camino entre inicio y meta.
+        /// Devuelve PathFound = false si los parametros son invalidos, las celdas
+        /// estan fuera del laberinto, o no existe ningun camino entre inicio y meta.
         /// </summary>
         /// <param name="maze">El laberinto como matriz de celdas</param>
         /// <param name="start">Donde empieza la busqueda</param>
@@ -32,10 +34,31 @@ namespace MazeSolver.Solvers
         /// <returns>Resultado con el camino si lo encuentra o indicador de fallo</returns>
         public SolveResult Solve(MazeCell[,] maze, MazeCell start, MazeCell goal)
         {
-            var stopwatch = Stopwatch.StartNew();
+            // --- Guardas de entrada ---
+
+            // 1. Parametros nulos: no se puede operar sin laberinto o celdas validas.
+            if (maze == null || start == null || goal == null)
+                return new SolveResult { AlgorithmName = Name, PathFound = false };
 
             int rows = maze.GetLength(0);
             int cols = maze.GetLength(1);
+
+            // 2. Coordenadas fuera del laberinto: evita IndexOutOfRangeException.
+            if (start.Row < 0 || start.Row >= rows || start.Col < 0 || start.Col >= cols ||
+                goal.Row  < 0 || goal.Row  >= rows || goal.Col  < 0 || goal.Col  >= cols)
+                return new SolveResult { AlgorithmName = Name, PathFound = false };
+
+            // 3. Caso trivial: inicio y meta son la misma celda.
+            if (start.Row == goal.Row && start.Col == goal.Col)
+                return new SolveResult
+                {
+                    AlgorithmName  = Name,
+                    PathFound      = true,
+                    Path           = new List<MazeCell> { start },
+                    NodesVisited   = 1,
+                    ElapsedMilliseconds = 0
+                };
+            var stopwatch = Stopwatch.StartNew();
 
             // Matriz para saber que celdas ya visitamos
             // E mas rapida que un HashSet
