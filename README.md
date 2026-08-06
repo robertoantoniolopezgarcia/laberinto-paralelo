@@ -18,3 +18,18 @@ El argumento (`1000` en el ejemplo) es el tamaño del laberinto (N x N). Si no
 se pasa ningún argumento, se usa 1000 por defecto.
 
 ## Estructura del repositorio
+
+maze-solver-parallel/
+├── docs/ -> Documentación del proyecto
+├── src/ -> Código fuente
+├── tests/ -> Pruebas unitarias
+└── metrics/ -> Resultados de comparativas (tiempos, speedup, eficiencia)
+
+## Equipo
+
+- Roberto Antonio López García (líder) — Generador de laberinto + estructura base
+- Esmil Adames — Solver BFS + DFS
+- Oscar Disla — Solver A* + Dijkstra
+- Gabriel Villa Cordero — Orquestador paralelo (TPL)
+- Mirelys De La Rosa De La Rosa — Métricas y pruebas
+
