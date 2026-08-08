@@ -1,6 +1,8 @@
 using System;
 using System.Diagnostics;
 using MazeSolver.Maze;
+using MazeSolver.Orchestration;
+using MazeSolver.Solvers;
 
 namespace MazeSolver
 {
@@ -29,8 +31,35 @@ namespace MazeSolver
 
             // TODO (Mirelys): imprimir/exportar la comparativa de resultados.
             // PerformanceTracker.PrintSummary(results);
+            // Solvers que se ejecutarán en paralelo.
+            var solvers = new ISolver[]
+            {
+    new BfsSolver(),
+    new DfsSolver(),
+    new AStarSolver(),
+    new DijkstraSolver()
+            };
 
-            Console.WriteLine("Pendiente: integrar solvers (BFS, DFS, A*, Dijkstra) y orquestador paralelo.");
+            // Ejecutar todos los algoritmos en paralelo.
+            var results = SolverOrchestrator.RunAll(
+                maze,
+                start,
+                goal,
+                solvers);
+
+            Console.WriteLine();
+            Console.WriteLine("Resultados de los solvers:");
+
+            foreach (var result in results)
+            {
+                Console.WriteLine(
+                    $"{result.Key} | " +
+                    $"PathFound: {result.Value.PathFound} | " +
+                    $"NodesVisited: {result.Value.NodesVisited} | " +
+                    $"PathLength: {result.Value.PathLength} | " +
+                    $"Time: {result.Value.ElapsedMilliseconds} ms");
+            }
+
         }
     }
 }
