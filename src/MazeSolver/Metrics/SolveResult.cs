@@ -17,6 +17,9 @@ namespace MazeSolver.Metrics
         public List<MazeCell> Path { get; set; } = new();
         public int NodesVisited { get; set; }
         public long ElapsedMilliseconds { get; set; }
+        public double Speedup { get; set; }
+
+        public double Efficiency { get; set; }
 
         /// <summary>
         /// Longitud del camino encontrado.

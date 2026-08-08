@@ -8,4 +8,8 @@
     <RootNamespace>MazeSolver</RootNamespace>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Compile Include="C:\Users\delar\Downloads\PerformanceTracker.cs" Link="PerformanceTracker.cs" />
+  </ItemGroup>
+
 </Project>
