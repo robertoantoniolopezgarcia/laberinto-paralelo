@@ -12,7 +12,7 @@ namespace MazeSolver
     {
         static void Main(string[] args)
         {
-            // Tama;o del laberinto configurable (default 1000x1000).
+            // Tamaño del laberinto configurable (default 1000x1000).
             int size = args.Length > 0 ? int.Parse(args[0]) : 1000;
 
             Console.WriteLine($"Generando laberinto de {size}x{size}...");
@@ -32,18 +32,31 @@ namespace MazeSolver
 
             var solvers = new ISolver[]
             {
-    new BfsSolver(),
-    new DfsSolver(),
-    new AStarSolver(),
-    new DijkstraSolver()
+                new BfsSolver(),
+                new DfsSolver(),
+                new AStarSolver(),
+                new DijkstraSolver()
             };
 
-            // Ejecutar todos los algoritmos en paralelo.
+            // --- Ejecucion SECUENCIAL (uno detras de otro) ---
+            // Sirve de referencia para poder calcular speedup y eficiencia
+            // contra la version paralela.
+            var sequentialStopwatch = Stopwatch.StartNew();
+            var sequentialResults = SolverOrchestrator.RunSequential(
+                maze,
+                start,
+                goal,
+                solvers);
+            sequentialStopwatch.Stop();
+
+            // --- Ejecucion PARALELA (los 4 algoritmos al mismo tiempo) ---
+            var parallelStopwatch = Stopwatch.StartNew();
             var results = SolverOrchestrator.RunAll(
                 maze,
                 start,
                 goal,
                 solvers);
+            parallelStopwatch.Stop();
 
             Console.WriteLine();
             Console.WriteLine("Resultados de los solvers:");
@@ -61,6 +74,17 @@ namespace MazeSolver
                     $"PathLength: {result.Value.PathLength} | " +
                     $"Time: {result.Value.ElapsedMilliseconds} ms");
             }
+
+            // --- Comparativa secuencial vs paralelo ---
+            double speedup = (double)sequentialStopwatch.ElapsedMilliseconds / parallelStopwatch.ElapsedMilliseconds;
+            double efficiency = speedup / solvers.Length;
+
+            Console.WriteLine();
+            Console.WriteLine("Comparativa secuencial vs paralelo:");
+            Console.WriteLine($"Tiempo total secuencial: {sequentialStopwatch.ElapsedMilliseconds} ms");
+            Console.WriteLine($"Tiempo total paralelo:   {parallelStopwatch.ElapsedMilliseconds} ms");
+            Console.WriteLine($"Speedup:    {speedup:F2}x");
+            Console.WriteLine($"Eficiencia: {efficiency:P1}");
 
             var tracker = new PerformanceTracker();
 
@@ -80,7 +104,6 @@ namespace MazeSolver
 
             Console.WriteLine();
             Console.WriteLine($"Resultados exportados a: {csvPath}");
-
         }
     }
 }
