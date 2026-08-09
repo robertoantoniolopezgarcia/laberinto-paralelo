@@ -105,8 +105,9 @@ namespace MazeSolver.Solvers
                         cameFrom[neighbor] = current;
                         gScore[neighbor] = tentativeGScore;
 
-                        // La prioridad se calcula sumando el costo recorrido (G)
-                        // y la heurística estimada hasta la salida (H).
+                        // En A* la prioridad corresponde a la suma del costo
+                        // acumulado desde la entrada (G) y la estimación
+                        // heurística hasta la salida (H).
                         int priority = tentativeGScore + CalculateHeuristic(neighbor, goal);
 
                         openSet.Enqueue(neighbor, priority);
@@ -116,6 +117,7 @@ namespace MazeSolver.Solvers
 
             stopwatch.Stop();
 
+          
             return new SolveResult
             {
                 AlgorithmName = Name,
@@ -127,11 +129,19 @@ namespace MazeSolver.Solvers
         }
 
         /// <summary>
-        /// Calcula la distancia Manhattan entre dos celdas.
-        /// Esta heurística estima qué tan lejos está una celda del objetivo.
+        /// Calcula la distancia Manhattan entre la celda actual y la celda objetivo.
+        ///
+        /// La fórmula utilizada es:
+        /// |fila_actual - fila_objetivo| + |columna_actual - columna_objetivo|.
+        ///
+        /// Esta heurística es admisible porque nunca sobreestima el costo real
+        /// para llegar al objetivo cuando únicamente se permiten movimientos
+        /// horizontales y verticales, como ocurre en este laberinto.
         /// </summary>
         private static int CalculateHeuristic(MazeCell current, MazeCell goal)
         {
+            // Fórmula de la distancia Manhattan:
+            // |fila_actual - fila_objetivo| + |columna_actual - columna_objetivo|
             return Math.Abs(current.Row - goal.Row) +
                    Math.Abs(current.Col - goal.Col);
         }
