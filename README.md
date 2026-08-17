@@ -14,8 +14,20 @@ cd src/MazeSolver
 dotnet run -- 1000
 ```
 
-El argumento (`1000` en el ejemplo) es el tamaño del laberinto (N x N). Si no
-se pasa ningún argumento, se usa 1000 por defecto.
+El primer argumento (`1000` en el ejemplo) es el tamaño del laberinto (N x N).
+Si no se pasa ningún argumento, se usa 1000 por defecto.
+
+Opcionalmente, se puede pasar un segundo argumento para elegir cuántos
+algoritmos corren en paralelo al mismo tiempo, entre 2 y 4 (la cantidad
+total de algoritmos disponibles):
+
+```bash
+dotnet run -- 1000 2
+```
+
+Si se omite, se usa el máximo (4) por defecto. Correr con menos núcleos
+permite comparar cómo cambia la eficiencia según la cantidad de tareas
+paralelas activas.
 
 ## Estructura del repositorio
 
@@ -27,9 +39,14 @@ maze-solver-parallel/
 
 ## Equipo
 
-- Roberto Antonio López García (líder) — Generador de laberinto + estructura base
-- Esmil Adames — Solver BFS + DFS
-- Oscar Disla — Solver A* + Dijkstra
-- Gabriel Villa Cordero — Orquestador paralelo (TPL)
-- Mirelys De La Rosa De La Rosa — Métricas y pruebas
+- Roberto Antonio López García (líder): estructura base del repositorio,
+  generador de laberinto, orquestador paralelo (incluyendo la selección de
+  núcleos) e integración final del sistema.
+- Esmil Adames: solvers BFS y DFS.
+- Oscar Disla: solvers A* y Dijkstra.
+- Mirelys De La Rosa De La Rosa: métricas, cálculo de speedup/eficiencia
+  y pruebas.
 
+Nota: el equipo inició con 5 integrantes. Gabriel Villa Cordero, originalmente
+asignado al orquestador paralelo, retiró la asignatura durante el desarrollo
+del proyecto; su responsabilidad fue reasignada al líder del equipo.
