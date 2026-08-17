@@ -1,0 +1,5 @@
+Algorithm,PathFound,NodesVisited,PathLength,ElapsedMilliseconds
+DFS,True,14741740,3866833,2030
+BFS,True,20558486,3866833,3488
+Dijkstra,True,20558477,3866833,37405
+A*,True,20512130,3866833,37682
